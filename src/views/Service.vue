@@ -175,7 +175,7 @@ export default {
   },
   data() {
     return {
-      imgURL2: '/src/assets/img/banner2.png',
+      imgURL2: '/banner2.png',
       home: { icon: 'pi pi-home', url: '/' },
       items: [{ label: 'Services', url: '/#' }],
       services: [],
