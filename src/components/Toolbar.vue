@@ -2,7 +2,7 @@
   <div :class="['toolbar-wrapper', { 'dark-toolbar': isDarkMode }]">
     <div :class="['logo mb-4 mt-4 ml-0 left-0', { 'dark-logo': isDarkMode }]">
       <img
-        :src="isDarkMode ? '/src/assets/img/logo-dark.png' : '/src/assets/img/logo.png'"
+        :src="isDarkMode ? '/logo-dark.png' : '/logo.png'"
         class="logo-image"
         style="transition: filter 0.001ms"
         @load="handleLoad"
@@ -51,7 +51,7 @@
         :dismissableMask="true"
       >
         <div class="flex align-items-center justify-content-center">
-          <img src="/src/assets/img/logo.png" style="width: 90px" />
+          <img src="/logo.png" style="width: 90px" />
         </div>
         <FloatLabel class="flex align-items-center justify-content-center gap-3 mb-3">
           <InputText
@@ -116,7 +116,7 @@
         :dismissableMask="true"
       >
         <div class="flex align-items-center justify-content-center">
-          <img src="/src/assets/img/logo.png" style="width: 90px" />
+          <img src="/logo.png" style="width: 90px" />
         </div>
         <form @submit.prevent="handleRegister">
           <FloatLabel class="flex align-items-center justify-content-center gap-3 mb-3">
