@@ -223,7 +223,6 @@ export default {
       }
     }
   },
-  inject: ['isDarkMode', 'toggleTheme'],
   methods: {
     showDialog(service) {
       this.selectedService = service
