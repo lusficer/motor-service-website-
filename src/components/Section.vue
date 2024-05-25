@@ -199,13 +199,13 @@ export default {
   },
   data() {
     return {
-      imgURL: '/src/assets/img/bannerbg.png',
-      imgURL2: '/src/assets/img/banner2.png',
-      imgURL3: '/src/assets/img/logo.png',
-      imgURL3_dark: '/src/assets/img/logo-dark.png',
-      imgURL4: '/src/assets/img/ubanner_about.png',
-      imgURL5: '/src/assets/img/section_about-2.png',
-      imgURL6: '/src/assets/img/section_about-3.png',
+      imgURL: './src/assets/img/bannerbg.png',
+      imgURL2: './src/assets/img/banner2.png',
+      imgURL3: './src/assets/img/logo.png',
+      imgURL3_dark: './src/assets/img/logo-dark.png',
+      imgURL4: './src/assets/img/ubanner_about.png',
+      imgURL5: './src/assets/img/section_about-2.png',
+      imgURL6: './src/assets/img/section_about-3.png',
       home: { label: ' Home', url: '/' },
       items: [{ label: 'About Us', url: '/about' }]
     }
