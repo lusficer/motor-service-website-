@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <div :class="['section2-wrapper', { dark: isDarkMode }]">
       <div class="image2" :style="backgroundImageStyle2">
         <p class="flex relative justify-content-center text-xs">GREAT CAR SERVICE</p>
@@ -157,7 +157,6 @@ import Button from 'primevue/button'
 import servicesData from '@/services/data'
 import EventBus from '@/utils/Eventbus'
 import Toast from 'primevue/toast'
-import axios from 'axios'
 import { StripeCheckout } from '@vue-stripe/vue-stripe'
 export default {
   components: {
