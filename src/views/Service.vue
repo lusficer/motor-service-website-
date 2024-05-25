@@ -1,149 +1,151 @@
 <template>
-  <div :class="['section2-wrapper', { dark: isDarkMode }]">
-    <div class="image2" :style="backgroundImageStyle2">
-      <p class="flex relative justify-content-center text-xs">GREAT CAR SERVICE</p>
-      <h1 class="about2-header flex justify-content-center text-white text-5xl text-center">
-        Premium car service matched with great workmanship. Best services you can count on
-      </h1>
-    </div>
-    <div class="services-content" :class="[{ dark: isDarkMode }]">
-      <Breadcrumb
-        :home="home"
-        :model="items"
-        class="pl-7"
-        :class="{ dark: isDarkMode }"
-      ></Breadcrumb>
-      <div>
-        <h1
-          class="content-header flex justify-content-center text-blue-700 text-5xl"
-          :class="[{ dark: isDarkMode }]"
-        >
-          All SERVICES
+  <div class="">
+    <div :class="['section2-wrapper', { dark: isDarkMode }]">
+      <div class="image2" :style="backgroundImageStyle2">
+        <p class="flex relative justify-content-center text-xs">GREAT CAR SERVICE</p>
+        <h1 class="about2-header flex justify-content-center text-white text-5xl text-center">
+          Premium car service matched with great workmanship. Best services you can count on
         </h1>
-        <DataView :value="filteredServices">
-          <template #header>
-            <Dropdown
-              :options="filterOptions"
-              v-model="selectedFilter"
-              optionLabel="label"
-              placeholder="All Services"
-            />
-          </template>
-          <template #list="slotProps">
-            <div v-for="(item, index) in slotProps.items" :key="index">
-              <div
-                class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3 border-1 p-7"
-                :style="{ backgroundColor: isDarkMode ? '#212121' : 'initial' }"
-              >
-                <div class="md:w-12rem relative">
-                  <img
-                    class="block xl:block mx-auto border-round w-full"
-                    :style="{ border: isDarkMode ? '1px solid white' : 'initial' }"
-                    :src="item.image"
-                    :alt="item.name"
-                  />
-                </div>
+      </div>
+      <div class="services-content" :class="[{ dark: isDarkMode }]">
+        <Breadcrumb
+          :home="home"
+          :model="items"
+          class="pl-7"
+          :class="{ dark: isDarkMode }"
+        ></Breadcrumb>
+        <div>
+          <h1
+            class="content-header flex justify-content-center text-blue-700 text-5xl"
+            :class="[{ dark: isDarkMode }]"
+          >
+            All SERVICES
+          </h1>
+          <DataView :value="filteredServices">
+            <template #header>
+              <Dropdown
+                :options="filterOptions"
+                v-model="selectedFilter"
+                optionLabel="label"
+                placeholder="All Services"
+              />
+            </template>
+            <template #list="slotProps">
+              <div v-for="(item, index) in slotProps.items" :key="index">
                 <div
-                  class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4"
+                  class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3 border-1 p-7"
+                  :style="{ backgroundColor: isDarkMode ? '#212121' : 'initial' }"
                 >
+                  <div class="md:w-12rem relative">
+                    <img
+                      class="block xl:block mx-auto border-round w-full"
+                      :style="{ border: isDarkMode ? '1px solid white' : 'initial' }"
+                      :src="item.image"
+                      :alt="item.name"
+                    />
+                  </div>
                   <div
-                    class="flex flex-row md:flex-column justify-content-between align-items-start gap-2"
+                    class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4"
                   >
-                    <div>
-                      <div
-                        class="text-5xl font-medium"
-                        :style="{ color: isDarkMode ? 'white' : 'initial' }"
-                      >
-                        {{ item.label }}
+                    <div
+                      class="flex flex-row md:flex-column justify-content-between align-items-start gap-2"
+                    >
+                      <div>
+                        <div
+                          class="text-5xl font-medium"
+                          :style="{ color: isDarkMode ? 'white' : 'initial' }"
+                        >
+                          {{ item.label }}
+                        </div>
+                        <span
+                          class="font-medium text-secondary text-base"
+                          :style="{ color: isDarkMode ? 'white' : 'initial' }"
+                          >{{ item.description }}</span
+                        >
                       </div>
-                      <span
-                        class="font-medium text-secondary text-base"
-                        :style="{ color: isDarkMode ? 'white' : 'initial' }"
-                        >{{ item.description }}</span
-                      >
                     </div>
                   </div>
-                </div>
-                <div class="flex flex-column md:align-items-end gap-5">
-                  <Button
-                    @click="showDialog(item)"
-                    class="w-full h-3rem text-xl font-semibold bg-white border-round-xs border-1"
-                    :style="{ color: isDarkMode ? 'black' : '#303F9F' }"
-                    >Make Order</Button
-                  >
-                  <Button
-                    class="text-xl w-full h-3rem font-semibold text-white"
-                    :style="{
-                      border: isDarkMode ? '1px solid white' : 'initial',
-                      backgroundColor: isDarkMode ? '#6E6E6D' : '#FE7A36'
-                    }"
-                    @click="navigateRoute"
-                    >Set Appointment</Button
-                  >
+                  <div class="flex flex-column md:align-items-end gap-5">
+                    <Button
+                      @click="showDialog(item)"
+                      class="w-full h-3rem text-xl font-semibold bg-white border-round-xs border-1"
+                      :style="{ color: isDarkMode ? 'black' : '#303F9F' }"
+                      >Make Order</Button
+                    >
+                    <Button
+                      class="text-xl w-full h-3rem font-semibold text-white"
+                      :style="{
+                        border: isDarkMode ? '1px solid white' : 'initial',
+                        backgroundColor: isDarkMode ? '#6E6E6D' : '#FE7A36'
+                      }"
+                      @click="navigateRoute"
+                      >Set Appointment</Button
+                    >
+                  </div>
                 </div>
               </div>
-            </div>
-            <Dialog
-              v-model:visible="visible"
-              modal
-              class="custom-dialog custom-placeholder"
-              :style="{ width: '35em', border: '10px' }"
-            >
-              <template #header>
-                <div class="w-full flex justify-content-center custom-border">
-                  <h2>{{ selectedService.label }}</h2>
-                </div>
-              </template>
-              <div
-                v-if="selectedService"
-                class="flex flex-wrap flex-column align-items-center justify-content-center w-full"
+              <Dialog
+                v-model:visible="visible"
+                modal
+                class="custom-dialog custom-placeholder"
+                :style="{ width: '35em', border: '10px' }"
               >
-                <Dropdown
-                  v-model="selectedBrand"
-                  :options="selectedService.prices"
-                  optionLabel="brand"
-                  placeholder="Select a brand"
-                  class="flex w-9"
-                />
+                <template #header>
+                  <div class="w-full flex justify-content-center custom-border">
+                    <h2>{{ selectedService.label }}</h2>
+                  </div>
+                </template>
                 <div
-                  v-if="selectedBrand"
-                  class="flex mt-6 surface-300 w-6 h-4rem text-xl align-items-center justify-content-center"
+                  v-if="selectedService"
+                  class="flex flex-wrap flex-column align-items-center justify-content-center w-full"
                 >
-                  <p class="font-semibold">Price: {{ selectedBrand.price }}</p>
+                  <Dropdown
+                    v-model="selectedBrand"
+                    :options="selectedService.prices"
+                    optionLabel="brand"
+                    placeholder="Select a brand"
+                    class="flex w-9"
+                  />
+                  <div
+                    v-if="selectedBrand"
+                    class="flex mt-6 surface-300 w-6 h-4rem text-xl align-items-center justify-content-center"
+                  >
+                    <p class="font-semibold">Price: {{ selectedBrand.price }}</p>
+                  </div>
                 </div>
-              </div>
-              <template #footer
-                ><div class="flex w-full justify-content-end justify-content-center gap-7">
-                  <Button
-                    type="button"
-                    label="Buy Now"
-                    severity="secondary"
-                    class="bg-white text-blue-500 border-orange-500 w-3"
-                    @click="submit"
-                  ></Button>
-                  <Button
-                    type="button"
-                    label="Add to cart"
-                    class="bg-orange-500 text-white border-orange-500 w-3"
-                    @click="addToCart"
-                  ></Button>
-                </div>
-              </template>
-            </Dialog>
-          </template>
-        </DataView>
+                <template #footer
+                  ><div class="flex w-full justify-content-end justify-content-center gap-7">
+                    <Button
+                      type="button"
+                      label="Buy Now"
+                      severity="secondary"
+                      class="bg-white text-blue-500 border-orange-500 w-3"
+                      @click="submit"
+                    ></Button>
+                    <Button
+                      type="button"
+                      label="Add to cart"
+                      class="bg-orange-500 text-white border-orange-500 w-3"
+                      @click="addToCart"
+                    ></Button>
+                  </div>
+                </template>
+              </Dialog>
+            </template>
+          </DataView>
+        </div>
       </div>
+      <stripe-checkout
+        ref="checkoutRef"
+        mode="subscription"
+        :pk="publishableKey"
+        :line-items="lineItems"
+        :success-url="successUrl"
+        :cancel-url="cancelUrl"
+      ></stripe-checkout>
     </div>
-    <stripe-checkout
-      ref="checkoutRef"
-      mode="subscription"
-      :pk="publishableKey"
-      :line-items="lineItems"
-      :success-url="successUrl"
-      :cancel-url="cancelUrl"
-    ></stripe-checkout>
+    <Toast ref="toast" :group="false" position="top-right" />
   </div>
-  <Toast ref="toast" :group="false" position="top-right" />
 </template>
 
 <script>
