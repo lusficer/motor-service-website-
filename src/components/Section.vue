@@ -213,7 +213,7 @@ export default {
   computed: {
     backgroundImageStyle() {
       return {
-        backgroundImage: `url(/${this.imgURL})`,
+        backgroundImage: `url(${this.imgURL})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }
