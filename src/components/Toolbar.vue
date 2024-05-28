@@ -20,6 +20,7 @@
             height="30.52"
             width="24.38"
             xmlns="http://www.w3.org/2000/svg"
+            :class="{ dark: isDarkMode }"
           >
             <title>icon-cart</title>
             <path
@@ -690,9 +691,13 @@ export default {
   transition: 0.2s linear;
 }
 
-.icon-cart path {
-  fill: white;
+.icon-cart {
+  color: black;
   transition: 0.2s linear;
+}
+
+.icon-cart.dark {
+  fill: #fff;
 }
 
 .btn-cart:hover > .icon-cart {
@@ -720,7 +725,7 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .data-view-container {
