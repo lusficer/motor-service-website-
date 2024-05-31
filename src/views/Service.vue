@@ -215,8 +215,6 @@ export default {
       }
     },
     filteredServices() {
-      console.log('Selected filter:', this.selectedFilter)
-
       if (!this.selectedFilter || Object.keys(this.selectedFilter).length === 0) {
         return this.services
       } else {
@@ -289,8 +287,7 @@ export default {
       }
     },
     navigateRoute() {
-      this.$router.push('/appointment')
-      window.scrollTo(0, 0)
+      window.location.href = '/appointment'
     },
     async submit() {
       if (!this.selectedBrand) {

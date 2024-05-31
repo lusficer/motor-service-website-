@@ -42,7 +42,6 @@ const router = createRouter({
   history: createWebHistory('/'),
   routes,
   scrollBehavior() {
-    // Scroll to the top of the page on route navigation
     return { x: 0, y: 0 }
   }
 })
