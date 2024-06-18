@@ -260,7 +260,6 @@ export default {
           quantity: 1
         }
       ]
-      console.log(this.$refs.checkoutRef)
       try {
         const result = await this.$refs.checkoutRef.redirectToCheckout({
           lineItems: this.lineItems,
@@ -268,7 +267,7 @@ export default {
           successUrl: this.successUrl,
           cancelUrl: this.cancelUrl
         })
-        console.log(result)
+        alert(result)
 
         if (result.error) {
           console.error('Error during checkout:', result.error)

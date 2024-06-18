@@ -319,7 +319,7 @@ export default {
 
 .image3 {
   width: 40vw;
-  height: 80%;
+  height: 364px;
   margin: 0rem 0rem 0 11%;
   background-repeat: no-repeat;
 }
