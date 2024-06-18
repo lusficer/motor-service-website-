@@ -11,6 +11,87 @@
     </div>
     <div class="container mt-4" :class="[{ dark: isDarkMode }]">
       <TabMenu :model="navigation" :class="['navigation w-full', { 'dark-tabmenu': isDarkMode }]" />
+
+      <div class="cart">
+        <button class="btn-cart" @click="toggleCart">
+          <svg
+            class="icon-cart"
+            viewBox="0 0 24.38 30.52"
+            height="30.52"
+            width="24.38"
+            xmlns="http://www.w3.org/2000/svg"
+            :class="{ dark: isDarkMode }"
+          >
+            <title>icon-cart</title>
+            <path
+              transform="translate(-3.62 -0.85)"
+              d="M28,27.3,26.24,7.51a.75.75,0,0,0-.76-.69h-3.7a6,6,0,0,0-12,0H6.13a.76.76,0,0,0-.76.69L3.62,27.3v.07a4.29,4.29,0,0,0,4.52,4H23.48a4.29,4.29,0,0,0,4.52-4ZM15.81,2.37a4.47,4.47,0,0,1,4.46,4.45H11.35a4.47,4.47,0,0,1,4.46-4.45Zm7.67,27.48H8.13a2.79,2.79,0,0,1-3-2.45L6.83,8.34h3V11a.76.76,0,0,0,1.52,0V8.34h8.92V11a.76.76,0,0,0,1.52,0V8.34h3L26.48,27.4a2.79,2.79,0,0,1-3,2.44Zm0,0"
+            ></path>
+          </svg>
+        </button>
+        <div v-if="showCart" class="cart-dropdown" :style="{ width: '26rem' }">
+          <div class="data-view-container">
+            <DataView :value="flatCartItems" class="m-0 pr-3 pl-3 pt-3">
+              <template #list="slotProps">
+                <div class="grid grid-nogutter">
+                  <div v-for="(item, index) in slotProps.items" :key="index" class="col-12">
+                    <div
+                      class="flex flex-column sm:flex-row sm:align-items-center p-2 gap-3"
+                      :class="{ 'border-top-1 surface-border': index !== 0 }"
+                    >
+                      <div class="md:w-10rem relative">
+                        <img
+                          class="block xl:block mx-auto border-round w-full"
+                          :src="`${item.image}`"
+                          :alt="item.name"
+                        />
+                      </div>
+                      <div
+                        class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4"
+                      >
+                        <div
+                          class="flex flex-row md:flex-column justify-content-between align-items-start gap-2"
+                        >
+                          <div>
+                            <span class="font-medium text-secondary text-sm"
+                              >Category: {{ item.category }}</span
+                            >
+                            <div class="text-lg font-medium text-900 mt-2">
+                              Name: {{ item.label }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </DataView>
+          </div>
+          <div class="flex align-items-center justify-content-between mt-3">
+            <Button
+              @click="clearCart"
+              :style="{
+                backgroundColor: isDarkMode ? '#6E6E6D' : '#FE7A36',
+                border: 'none',
+                height: '2.5rem'
+              }"
+              >Clear Cart</Button
+            >
+            <Button
+              @click="redirectToCheckout"
+              class="btn-stripe-checkout flex"
+              :style="{
+                backgroundColor: isDarkMode ? '#6E6E6D' : '#FE7A36',
+                border: 'none',
+                height: '2.5rem'
+              }"
+            >
+              Checkout with Stripe
+            </Button>
+          </div>
+        </div>
+      </div>
       <Button
         v-if="isLoggedIn"
         @click="menuVisible = !menuVisible"
@@ -241,6 +322,14 @@
         </form>
       </Dialog>
     </div>
+    <stripe-checkout
+      ref="checkoutRef"
+      mode="subscription"
+      :pk="publishableKey"
+      :line-items="lineItems"
+      :success-url="successUrl"
+      :cancel-url="cancelUrl"
+    ></stripe-checkout>
   </div>
   <Toast ref="toast" :group="false" position="top-right" />
 </template>
@@ -250,11 +339,13 @@ import TabMenu from 'primevue/tabmenu'
 import Dialog from 'primevue/dialog'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import DataView from 'primevue/dataview'
 import FloatLabel from 'primevue/floatlabel'
 import Password from 'primevue/password'
 import Toast from 'primevue/toast'
 import authMixin from '../utils/auth.js'
 import { registerUser } from '../utils/userService.js'
+import { StripeCheckout } from '@vue-stripe/vue-stripe'
 
 import 'primevue/resources/themes/lara-light-indigo/theme.css'
 
@@ -267,7 +358,9 @@ export default {
     InputText,
     FloatLabel,
     Password,
-    Toast
+    Toast,
+    DataView,
+    StripeCheckout
   },
   props: {
     isDarkMode: {
@@ -281,6 +374,9 @@ export default {
     menuVisible: false,
     accouuntVisible: false,
     loginvisible: true,
+    cartItems: [],
+    lineItems: [],
+    showCart: false,
     showDialog: false,
     loginData: {
       username: null,
@@ -294,6 +390,10 @@ export default {
       email: '',
       dateOfBirth: ''
     },
+    publishableKey:
+      'pk_test_51PIpED01HTEsX8gXhs9HBmHQl16bAZYyvArNfoLvILs5DO7IoIC6uqG7uqiHMkjCwu5EZF5VYu9JSvkBJoALW0kw00qNCZMn76',
+    successUrl: 'https://localhost:5173',
+    cancelUrl: 'http://localhost:5173/services',
     navigation: [
       { label: 'Home', url: '/' },
       { label: 'About', url: '/about' },
@@ -310,6 +410,20 @@ export default {
       }
     ]
   }),
+  mounted() {
+    try {
+      const storedCartItems = localStorage.getItem('cart')
+      if (storedCartItems) {
+        this.cartItems = JSON.parse(storedCartItems)
+      } else {
+        this.cartItems = []
+      }
+    } catch (error) {
+      console.error('Error parsing cart items from localStorage:', error)
+      localStorage.removeItem('cart')
+      this.cartItems = []
+    }
+  },
   computed: {
     isUsernameValid() {
       return this.registerData.username.trim() !== ''
@@ -328,6 +442,16 @@ export default {
     },
     isDateOfBirthValid() {
       return this.registerData.dateOfBirth.trim() !== ''
+    },
+    flatCartItems() {
+      return this.cartItems.reduce((acc, curr) => acc.concat(curr), [])
+    },
+    flatLineItems() {
+      const lineItems = this.flatCartItems.map((item) => ({
+        price: item.selectedBrand.priceId,
+        quantity: 1
+      }))
+      return lineItems
     }
   },
   methods: {
@@ -398,6 +522,30 @@ export default {
     },
     isUserPage() {
       return this.$route.path.includes('/user')
+    },
+    toggleCart() {
+      this.showCart = !this.showCart
+    },
+    edit() {
+      this.lineItems = this.flatLineItems
+      console.log(this.lineItems)
+    },
+    clearCart() {
+      localStorage.removeItem('cart')
+      this.cartItems = []
+    },
+    async redirectToCheckout() {
+      try {
+        this.lineItems = this.flatLineItems
+        this.$refs.checkoutRef.redirectToCheckout({
+          lineItems: this.lineItems,
+          mode: 'payment',
+          successUrl: this.successUrl,
+          cancelUrl: this.cancelUrl
+        })
+      } catch (e) {
+        console.log('Error during checkout:', e)
+      }
     }
   }
 }
@@ -506,6 +654,87 @@ export default {
 
 .p-dialog .p-dialog-content.dark- {
   background-color: #212121;
+}
+
+.btn-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75%;
+  width: 50px;
+  padding-right: 3%;
+  border-radius: 10px;
+  border: none;
+  background-color: transparent;
+  position: relative;
+  cursor: pointer;
+}
+
+.btn-cart::after {
+  content: attr(data-quantity);
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  font-size: 15px;
+  color: white;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva,
+    Verdana, sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s linear;
+  top: 115%;
+}
+
+.icon-cart {
+  width: 24.38px;
+  height: 30.52px;
+  transition: 0.2s linear;
+}
+
+.icon-cart {
+  color: black;
+  transition: 0.2s linear;
+}
+
+.icon-cart.dark {
+  fill: #fff;
+}
+
+.btn-cart:hover > .icon-cart {
+  transform: scale(1.2);
+}
+
+.btn-cart:hover > .icon-cart path {
+  fill: #fe7a36;
+}
+
+.btn-cart:hover::after {
+  visibility: visible;
+  top: 105%;
+}
+
+.cart {
+  position: relative;
+}
+
+.cart-dropdown {
+  position: absolute;
+  top: 58%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.data-view-container {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cart-item {
+  margin-bottom: 5px;
 }
 
 ::v-deep(.p-menu) {

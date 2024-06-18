@@ -30,7 +30,8 @@ module.exports.loginuserDBService = async (employeeDetails) => {
       const decrypted = encryptor.decrypt(result.password)
       const accessToken = jwt.sign(
         {
-          id: result.id
+          id: result.id,
+          isAdmin: result.isAdmin
         },
         process.env.JWT_SECRET,
         { expiresIn: '3d' }
