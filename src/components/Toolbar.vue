@@ -392,8 +392,8 @@ export default {
     },
     publishableKey:
       'pk_test_51PIpED01HTEsX8gXhs9HBmHQl16bAZYyvArNfoLvILs5DO7IoIC6uqG7uqiHMkjCwu5EZF5VYu9JSvkBJoALW0kw00qNCZMn76',
-    successUrl: 'https://localhost:5173',
-    cancelUrl: 'http://localhost:5173/services',
+    successUrl: 'https://motorss.vercel.app:5173',
+    cancelUrl: 'https://motorss.vercel.app:5173/services',
     navigation: [
       { label: 'Home', url: '/' },
       { label: 'About', url: '/about' },

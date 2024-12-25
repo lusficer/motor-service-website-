@@ -134,7 +134,9 @@ export default {
     async checkout() {
       try {
         const amount = 1000 // Amount in cents
-        const response = await axios.post('http://localhost:3001/create-payment-intent', { amount })
+        const response = await axios.post('https://motorss.vercel.app:3001/create-payment-intent', {
+          amount
+        })
         this.session = { id: response.data }
         this.$refs.checkoutRef.redirectToCheckout()
       } catch (error) {
