@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5734'
+  baseURL: 'https://motorss.vercel.app'
 })
 
 export default instance
